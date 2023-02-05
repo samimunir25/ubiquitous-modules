@@ -4,8 +4,6 @@ instance_type = "t2.small"
 
 image_id = "ami-00874d747dde814fa"
 
-alb_port = "80"
-
 min_size = "2"
 
 max_size = "2"
