@@ -3,11 +3,9 @@ resource "aws_launch_configuration" "web_launch_config" {
   instance_type   = var.instance_type
   security_groups = [aws_security_group.web_sg.id]
 
-  user_data = <<-EOF
-              #!/bin/bash
-              echo "Hello, World" > index.html
-              nohup busybox httpd -f -p ${var.server_port} &
-              EOF
+  user_data = templatefile("user-data.sh", {
+    server_port = var.server_port
+  })
               
   lifecycle {
     create_before_destroy = true

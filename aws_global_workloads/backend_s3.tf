@@ -30,3 +30,8 @@ resource "aws_s3_bucket_public_access_block" "public_access" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+output "s3_bucket_arn" {
+  value       = aws_s3_bucket.backend_s3_bucket.arn
+  description = "The ARN of the S3 bucket"
+}
