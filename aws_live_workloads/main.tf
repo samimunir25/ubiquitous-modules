@@ -1,5 +1,5 @@
 module "webserver_cluster" {
-  source = "../modules/compute/"
+  source = "../modules/compute/?ref=v0.0.1"
 
   cluster_name = "webserver-stage"
   instance_type = var.instance_type
