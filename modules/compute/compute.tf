@@ -161,8 +161,3 @@ output "alb_dns_name" {
   value       = aws_lb.web_application_loadbalancer.dns_name
   description = "The domain name of the load balancer"
 }
-
-output "alb_security_group_id" {
-  value       = aws_security_group.alb_security_group.id
-  description = "The ID of the Security Group attached to the ALB"
-}
