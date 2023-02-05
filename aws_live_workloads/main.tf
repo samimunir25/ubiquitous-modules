@@ -1,5 +1,5 @@
 module "webserver_cluster" {
-  source = "github.com/samimunir25/ubiquitous-modules///modules/compute?ref=v0.0.1"
+  source = "github.com/samimunir25/ubiquitous-modules///modules/compute?ref=v0.0.2"
 
   cluster_name = "webserver-stage"
   instance_type = var.instance_type
