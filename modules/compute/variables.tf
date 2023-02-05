@@ -1,9 +1,11 @@
-variable "aws_region" {
-  description = "AWS region for deployment"
-}
+# -------------------------------------------------------
+# REQUIRED PARAMETERS
+# You must provide a value for each of these parameters.
+# -------------------------------------------------------
 
 variable "instance_type" {
   description = "Instance Type for Hippo APP EC2 instance"
+  type        = string
 }
 
 variable "image_id" {
