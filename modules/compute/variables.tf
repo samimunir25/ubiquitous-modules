@@ -8,12 +8,6 @@ variable "instance_type" {
   type        = string
 }
 
-variable "image_id" {
-  description = "Ubuntu Server 22.04 LTS (HVM), SSD Volume Type. Architecture x86_64"
-  type        = string
-}
-
-
 variable "cluster_name" {
   description = "The name to use for all the cluster resources"
   type        = string
