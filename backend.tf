@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket  = "terraform-states-wa-integration"
-    key     = "integration/services/cloudops-tmh-hippo/eu-west-1/terraform.tfstate"
-    region  = "eu-west-1"
+    bucket  = "remote-state-065374699403"
+    key     = "us-east-1/terraform.tfstate"
+    region  = "us-east-1"
     encrypt = true
   }
 }

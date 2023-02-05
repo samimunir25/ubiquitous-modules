@@ -1,14 +1,14 @@
-resource "aws_launch_configuration" "hippo_launch_configuration" {
-  image_id        = "ami-0fb653ca2d3203ac1"  ## write data block for AMI ##
+resource "aws_launch_configuration" "web_launch_config" {
+  image_id        = var.image_id
   instance_type   = var.instance_type
-  security_groups = [aws_security_group.hippo_sg.id]
+  security_groups = [aws_security_group.web_sg.id]
   lifecycle {
       create_before_destroy = true
     }
 }
 
-resource "aws_security_group" "hippo_sg" {
-  name = "hippo_security_group"
+resource "aws_security_group" "web_sg" {
+  name = "web_security_group"
   ingress {
     from_port   = var.server_port
     to_port     = var.server_port
@@ -17,19 +17,19 @@ resource "aws_security_group" "hippo_sg" {
   }
 }
 
-resource "aws_autoscaling_group" "hippo_asg" {
-  launch_configuration = aws_launch_configuration.hippo_launch_configuration.name
+resource "aws_autoscaling_group" "web_asg" {
+  launch_configuration = aws_launch_configuration.web_launch_config.name
   vpc_zone_identifier  = data.aws_subnets.default.ids
 
-  target_group_arns = [aws_lb_target_group.asg.arn]
+  target_group_arns = [aws_lb_target_group.asg.arn] ##
   health_check_type = "ELB"
 
-  min_size = 6
-  max_size = 6
+  min_size = 2
+  max_size = 3
 
   tag {
     key                 = "Name"
-    value               = "Hippo_ASG"
+    value               = "WEB_ASG"
     propagate_at_launch = true
   }
 }
@@ -46,16 +46,16 @@ data "aws_subnets" "default" {
   }
 }
 
-resource "aws_lb" "example" {
-  name               = "terraform-asg-example"
+resource "aws_lb" "web_alb" {
+  name               = "web-alb-feb"
   load_balancer_type = "application"
   subnets            = data.aws_subnets.default.ids
   security_groups    = [aws_security_group.alb.id]
 }
 
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.example.arn
-  port              = 80
+  load_balancer_arn = aws_lb.web_alb.arn
+  port              = var.alb_port
   protocol          = "HTTP"
 
   # By default, return a simple 404 page
@@ -70,8 +70,8 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-resource "aws_security_group" "alb" {
-  name = "terraform-example-alb"
+resource "aws_security_group" "alb_sg" {
+  name = "web-alb-security-group"
   # Allow inbound HTTP requests
   ingress {
     from_port   = 80
@@ -89,8 +89,8 @@ resource "aws_security_group" "alb" {
   }
 }
 
-resource "aws_lb_target_group" "asg" {
-  name     = "terraform-asg-example"
+resource "aws_lb_target_group" "alb_target_group" {
+  name     = "web-alb-target_group"
   port     = var.server_port
   protocol = "HTTP"
   vpc_id   = data.aws_vpc.default.id
@@ -106,7 +106,7 @@ resource "aws_lb_target_group" "asg" {
   }
 }
 
-resource "aws_lb_listener_rule" "asg" {
+resource "aws_lb_listener_rule" "alb_listener" {
   listener_arn = aws_lb_listener.http.arn
   priority     = 100
 
@@ -118,11 +118,11 @@ resource "aws_lb_listener_rule" "asg" {
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.asg.arn
+    target_group_arn = aws_lb_target_group.alb_target_group.arn
   }
 }
 
 output "alb_dns_name" {
-  value       = aws_lb.example.dns_name
+  value       = aws_lb.web_alb.dns_name
   description = "The domain name of the load balancer"
 }
