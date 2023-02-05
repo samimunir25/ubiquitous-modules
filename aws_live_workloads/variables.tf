@@ -1,3 +1,8 @@
+variable "aws_region" {
+  description = "Region for AWS workloads deplooyment"
+  type        = string  
+}
+
 variable "image_id" {
   description = "Ubuntu Server 22.04 LTS (HVM), SSD Volume Type. Architecture x86_64"
   type        = string

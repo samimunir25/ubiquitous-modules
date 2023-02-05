@@ -4,9 +4,15 @@
 # -------------------------------------------------------
 
 variable "instance_type" {
-  description = "Instance Type for Hippo APP EC2 instance"
+  description = "Instance Type for Auto Scaling Group"
   type        = string
 }
+
+variable "image_id" {
+  description = "AMI ID for Auto Scaling Group"
+  type        = string
+}
+
 
 variable "cluster_name" {
   description = "The name to use for all the cluster resources"

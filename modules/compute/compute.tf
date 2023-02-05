@@ -16,7 +16,7 @@ data "aws_subnets" "default" {
 resource "aws_launch_configuration" "web_launch_configuration" {
   image_id        = var.image_id
   instance_type   = var.instance_type
-  security_groups = [aws_security_group.web_sg.id]
+  security_groups = [aws_security_group.web_security_group.id]
 
   user_data = templatefile("${path.module}/user-data.sh", {
     server_port = var.server_port
@@ -33,7 +33,7 @@ resource "aws_autoscaling_group" "web_autoscaling_group" {
   launch_configuration = aws_launch_configuration.web_launch_configuration.name
   vpc_zone_identifier  = data.aws_subnets.default.ids
 
-  target_group_arns = [aws_lb_target_group.alb_target_group.arn] ##
+  target_group_arns = [aws_lb_target_group.web_alb_target_group.arn]
   health_check_type = "ELB"
 
   min_size = var.min_size
@@ -72,7 +72,7 @@ resource "aws_lb" "web_application_loadbalancer" {
   security_groups    = [aws_security_group.alb_security_group.id]
 }
 
-### Security Group for Application Load Balancef ###
+### Security Group for Application Load Balancer ###
 
 resource "aws_security_group" "alb_security_group" {
   name = "${var.cluster_name}-alb-security-group"
@@ -158,11 +158,11 @@ resource "aws_lb_listener_rule" "web_alb_listener_rule" {
 ### Application Load Balancer - ARN ###
 
 output "alb_dns_name" {
-  value       = aws_lb.web_alb.dns_name
+  value       = aws_lb.web_application_loadbalancer.dns_name
   description = "The domain name of the load balancer"
 }
 
 output "alb_security_group_id" {
-  value       = aws_security_group.alb.id
+  value       = aws_security_group.alb_security_group.id
   description = "The ID of the Security Group attached to the ALB"
 }
