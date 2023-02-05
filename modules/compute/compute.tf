@@ -1,3 +1,5 @@
+### Launch Configuration for Auto Scaling Group ###
+
 resource "aws_launch_configuration" "web_launch_config" {
   image_id        = var.image_id
   instance_type   = var.instance_type
@@ -12,15 +14,19 @@ resource "aws_launch_configuration" "web_launch_config" {
   }
 }
 
+### Security Group for Launch Configuration ###
+
 resource "aws_security_group" "web_sg" {
-  name = "web_security_group"
+  name = "${var.cluster_name}-web-sg"
   ingress {
-    from_port   = var.server_port
-    to_port     = var.server_port
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = local.http_port
+    to_port     = local.http_port
+    protocol    = local.tcp_protocol
+    cidr_blocks = local.all_ips
   }
 }
+
+### Auto Scaling Group ###
 
 resource "aws_autoscaling_group" "web_asg" {
   launch_configuration = aws_launch_configuration.web_launch_config.name
@@ -29,12 +35,12 @@ resource "aws_autoscaling_group" "web_asg" {
   target_group_arns = [aws_lb_target_group.alb_target_group.arn] ##
   health_check_type = "ELB"
 
-  min_size = 2
-  max_size = 3
+  min_size = var.min_size
+  max_size = var.max_size
 
   tag {
     key                 = "Name"
-    value               = "WEB_ASG"
+    value               = var.cluster_name
     propagate_at_launch = true
   }
 }
@@ -51,16 +57,20 @@ data "aws_subnets" "default" {
   }
 }
 
+### Application Load Balancer ###
+
 resource "aws_lb" "web_alb" {
-  name               = "web-alb-feb"
+  name               = var.cluster_name
   load_balancer_type = "application"
   subnets            = data.aws_subnets.default.ids
   security_groups    = [aws_security_group.alb_sg.id]
 }
 
+### Listener Rules for Application Load Balancer ###
+
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.web_alb.arn
-  port              = var.alb_port
+  port              = local.http_port
   protocol          = "HTTP"
 
   # By default, return a simple 404 page
@@ -75,24 +85,29 @@ resource "aws_lb_listener" "http" {
   }
 }
 
+### Security Group for Application Load Balancef ###
+
 resource "aws_security_group" "alb_sg" {
-  name = "web-alb-security-group"
+  name = "${var.cluster_name}-alb-sg"
+
   # Allow inbound HTTP requests
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = local.http_port
+    to_port     = local.http_port
+    protocol    = local.tcp_protocol
+    cidr_blocks = local.all_ips
   }
 
   # Allow all outbound requests
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = local.http_port
+    to_port     = local.http_port
+    protocol    = local.tcp_protocol
+    cidr_blocks = local.all_ips
   }
 }
+
+### Target Group for Application Load Balancef ###
 
 resource "aws_lb_target_group" "alb_target_group" {
   name     = "web-alb-target-group"
@@ -111,6 +126,8 @@ resource "aws_lb_target_group" "alb_target_group" {
   }
 }
 
+### Attaching Listener Rule to Targer Group ###
+
 resource "aws_lb_listener_rule" "alb_listener" {
   listener_arn = aws_lb_listener.http.arn
   priority     = 100
@@ -126,6 +143,8 @@ resource "aws_lb_listener_rule" "alb_listener" {
     target_group_arn = aws_lb_target_group.alb_target_group.arn
   }
 }
+
+### Application Load Balancer - ARN ###
 
 output "alb_dns_name" {
   value       = aws_lb.web_alb.dns_name
