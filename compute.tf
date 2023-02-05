@@ -2,9 +2,16 @@ resource "aws_launch_configuration" "web_launch_config" {
   image_id        = var.image_id
   instance_type   = var.instance_type
   security_groups = [aws_security_group.web_sg.id]
+
+  user_data = <<-EOF
+              #!/bin/bash
+              echo "Hello, World" > index.html
+              nohup busybox httpd -f -p ${var.server_port} &
+              EOF
+              
   lifecycle {
-      create_before_destroy = true
-    }
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group" "web_sg" {
@@ -21,7 +28,7 @@ resource "aws_autoscaling_group" "web_asg" {
   launch_configuration = aws_launch_configuration.web_launch_config.name
   vpc_zone_identifier  = data.aws_subnets.default.ids
 
-  target_group_arns = [aws_lb_target_group.asg.arn] ##
+  target_group_arns = [aws_lb_target_group.alb_target_group.arn] ##
   health_check_type = "ELB"
 
   min_size = 2
@@ -50,7 +57,7 @@ resource "aws_lb" "web_alb" {
   name               = "web-alb-feb"
   load_balancer_type = "application"
   subnets            = data.aws_subnets.default.ids
-  security_groups    = [aws_security_group.alb.id]
+  security_groups    = [aws_security_group.alb_sg.id]
 }
 
 resource "aws_lb_listener" "http" {
@@ -90,7 +97,7 @@ resource "aws_security_group" "alb_sg" {
 }
 
 resource "aws_lb_target_group" "alb_target_group" {
-  name     = "web-alb-target_group"
+  name     = "web-alb-target-group"
   port     = var.server_port
   protocol = "HTTP"
   vpc_id   = data.aws_vpc.default.id

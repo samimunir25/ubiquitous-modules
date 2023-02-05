@@ -1,5 +1,5 @@
 variable "aws_region" {
-  description = "AWS region for KMS deployment"
+  description = "AWS region for deployment"
 }
 
 variable "instance_type" {
@@ -12,12 +12,12 @@ variable "server_port" {
 }
 
 variable "image_id" {
-  description = "Amazon Linux 2 AMI (HVM) - Kernel 5.10, SSD Volume Type"
-  type = string
- }
+  description = "Ubuntu Server 22.04 LTS (HVM), SSD Volume Type. Architecture x86_64"
+  type        = string
+}
 
- variable "alb_port" {
+variable "alb_port" {
   description = "Listener port for ALB"
-  type = string
-   
- }
+  type        = string
+
+}
