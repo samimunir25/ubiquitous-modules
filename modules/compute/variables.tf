@@ -36,4 +36,5 @@ variable "server_port" {
 
 variable "vpc_id" {
   description = "VPC ID where the module is to be executed"
+  type        = string
 }
