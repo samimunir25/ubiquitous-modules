@@ -27,3 +27,8 @@ variable "server_port" {
   description = "The port the server will use for HTTP requests"
   type        = number
 }
+
+variable "vpc_id" {
+  description = "VPC ID where the module is to be executed"
+  type        = string
+}

@@ -7,7 +7,7 @@ data "aws_vpc" "selected_vpc" {
 data "aws_subnets" "subnets_in_selected_vpc" {
   filter {
     name   = "vpc-id"
-    values = [data.aws_vpc.subnets_in_selected_vpc.id]
+    values = [data.aws_vpc.selected_vpc.id]
   }
 }
 
@@ -49,7 +49,8 @@ resource "aws_autoscaling_group" "web_autoscaling_group" {
 ### Security Group for Launch Configuration ###
 
 resource "aws_security_group" "web_security_group" {
-  name = "${var.cluster_name}-web-security-group"
+  name   = "${var.cluster_name}-web-security-group"
+  vpc_id = data.aws_vpc.selected_vpc.id
 
 }
 
@@ -68,14 +69,15 @@ resource "aws_security_group_rule" "allow_web_security_group_inbound" {
 resource "aws_lb" "web_application_loadbalancer" {
   name               = var.cluster_name
   load_balancer_type = "application"
-  subnets            = data.aws_subnets.default.ids
+  subnets            = data.aws_subnets.subnets_in_selected_vpc.ids
   security_groups    = [aws_security_group.alb_security_group.id]
 }
 
 ### Security Group for Application Load Balancer ###
 
 resource "aws_security_group" "alb_security_group" {
-  name = "${var.cluster_name}-alb-security-group"
+  name   = "${var.cluster_name}-alb-security-group"
+  vpc_id = data.aws_vpc.selected_vpc.id
 }
 
 resource "aws_security_group_rule" "allow_http_inbound" {
@@ -124,7 +126,7 @@ resource "aws_lb_target_group" "web_alb_target_group" {
   name     = var.cluster_name
   port     = var.server_port
   protocol = "HTTP"
-  vpc_id   = data.aws_vpc.default.id
+  vpc_id   = data.aws_vpc.selected_vpc.id
 
   health_check {
     path                = "/"

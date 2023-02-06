@@ -1,5 +1,5 @@
 module "webserver_cluster" {
-  source = "github.com/samimunir25/ubiquitous-modules//modules/compute?ref=v0.0.2"
+  source = "github.com/samimunir25/ubiquitous-modules//modules/compute?ref=v0.0.3"
 
   cluster_name  = "webserver-stage"
   vpc_id        = var.vpc_id
