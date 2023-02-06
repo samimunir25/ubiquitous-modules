@@ -1,6 +1,6 @@
 # -------------------------------------------------------
 # REQUIRED PARAMETERS
-# You must provide a value for each of these parameters.
+# Value for each of these parameters must be provided.
 # -------------------------------------------------------
 
 variable "instance_type" {
@@ -32,4 +32,8 @@ variable "max_size" {
 variable "server_port" {
   description = "The port the server will use for HTTP requests"
   type        = number
+}
+
+variable "vpc_id" {
+  description = "VPC ID where the module is to be executed"
 }

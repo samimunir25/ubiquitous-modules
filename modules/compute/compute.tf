@@ -1,13 +1,13 @@
 ## Data Block for importing VPN and Subnet IDs ###
 
-data "aws_vpc" "default" {
-  default = true
+data "aws_vpc" "selected_vpc" {
+  id = var.vpc_id
 }
 
-data "aws_subnets" "default" {
+data "aws_subnets" "subnets_in_selected_vpc" {
   filter {
     name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
+    values = [data.aws_vpc.subnets_in_selected_vpc.id]
   }
 }
 
@@ -21,7 +21,7 @@ resource "aws_launch_configuration" "web_launch_configuration" {
   user_data = templatefile("${path.module}/user-data.sh", {
     server_port = var.server_port
   })
-              
+
   lifecycle {
     create_before_destroy = true
   }
@@ -31,7 +31,7 @@ resource "aws_launch_configuration" "web_launch_configuration" {
 
 resource "aws_autoscaling_group" "web_autoscaling_group" {
   launch_configuration = aws_launch_configuration.web_launch_configuration.name
-  vpc_zone_identifier  = data.aws_subnets.default.ids
+  vpc_zone_identifier  = data.aws_subnets.subnets_in_selected_vpc.ids
 
   target_group_arns = [aws_lb_target_group.web_alb_target_group.arn]
   health_check_type = "ELB"
@@ -50,7 +50,7 @@ resource "aws_autoscaling_group" "web_autoscaling_group" {
 
 resource "aws_security_group" "web_security_group" {
   name = "${var.cluster_name}-web-security-group"
-  
+
 }
 
 resource "aws_security_group_rule" "allow_web_security_group_inbound" {

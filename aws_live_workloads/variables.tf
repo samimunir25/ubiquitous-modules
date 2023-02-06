@@ -1,6 +1,6 @@
 variable "aws_region" {
   description = "Region for AWS workloads deplooyment"
-  type        = string  
+  type        = string
 }
 
 variable "image_id" {
