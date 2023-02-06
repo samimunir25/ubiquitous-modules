@@ -11,7 +11,7 @@ This repo contains example for creating below AWS workloads:
 ## Note on Reusable Module 
 
 To deploy Auto Scaling Group with Application Load Balancer in default VPC, use below source URL in your root module.
-```json
+```javascript
 module "webserver_cluster" {
   source = "github.com/samimunir25/ubiquitous-modules//modules/compute?ref=v0.0.2"
 
@@ -24,7 +24,7 @@ module "webserver_cluster" {
 }
 ```
 To deploy Auto Scaling Group with Application Load Balancer in custom VPC, use below source URL in your root module.
-```json
+```javascript
 module "webserver_cluster" {
   source = "github.com/samimunir25/ubiquitous-modules//modules/compute?ref=v0.0.3"
 
