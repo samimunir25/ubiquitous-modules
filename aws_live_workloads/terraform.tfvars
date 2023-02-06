@@ -9,3 +9,5 @@ min_size = "2"
 max_size = "2"
 
 server_port = "8080"
+
+vpc_id = "vpc-00ff0b00218468936"
