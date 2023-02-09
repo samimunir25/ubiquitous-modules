@@ -41,6 +41,12 @@ This repo is setup in modular structure.\
 
 ## Note on Reusable Module 
 
+Modules are released with tags. This helps avoiding break-changes in new releases to impact earlier module version.\
+At this phase of project,
+- tag v0.0.2 of module is for creating AWS workloads in default VPC.
+- tag v0.0.3 of module is for creatin AWS workloads in custome VPC.
+
+
 To deploy Auto Scaling Group with Application Load Balancer in default VPC, use below source URL in your root module.
 ```javascript
 module "webserver_cluster" {
@@ -68,6 +74,12 @@ module "webserver_cluster" {
   server_port   = var.server_port
 }
 ```
+## Note on AMI_ID and VPC_ID
+
+*terraform.tfvars* contains AMI_ID and VPC_ID values which needs to be unique to your environment.
+- Ensure the AMI_ID is for image which supports base x86_64 architecture.
+- Ensure VPC_ID is the ID of your custom VPC. (If workloads are being deployed to non-default VPC).
+
 ## Note on Remote Backend
 
 Root module is configured to use S3 backened. In your scenario, replace bucket, key and region according to your AWS account.
