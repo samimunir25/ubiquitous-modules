@@ -32,3 +32,33 @@ variable "vpc_id" {
   description = "VPC ID where the module is to be executed"
   type        = string
 }
+
+####
+variable "vpc_cidr_block" {
+  description = "CIDR Block for VPCed"
+  type        = string
+}
+
+variable "vpc_tag" {
+  description = "Tag for VPC"
+  type        = string
+}
+variable "igw_tag" {
+  description = "Tag for Internet Gateway"
+  type        = string
+}
+
+variable "subnet_cidr_block" {
+  description = "Tag for Internet Gateway"
+  type        = string
+}
+
+variable "subnet_tag" {
+  description = "Tag for Subnet"
+  type        = string
+}
+
+variable "route_table_tag" {
+  description = "Tag for Route table"
+  type        = string
+}

@@ -5,7 +5,7 @@
 
 variable "vpc_cidr_block" {
   description = "CIDR Block for VPC"
-  type        = number
+  type        = string
 }
 
 variable "vpc_tag" {
