@@ -67,7 +67,7 @@ resource "aws_route_table_association" "a" {
   depends_on = [aws_route_table.this]
 }
 
-resource "aws_route_table_association" "a" {
+resource "aws_route_table_association" "b" {
   subnet_id      = aws_subnet.b.id
   route_table_id = aws_route_table.this.id
   depends_on = [aws_route_table.this]
