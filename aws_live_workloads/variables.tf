@@ -28,14 +28,10 @@ variable "server_port" {
   type        = number
 }
 
-variable "vpc_id" {
-  description = "VPC ID where the module is to be executed"
-  type        = string
-}
+#### Core-Infra Variables ###
 
-####
 variable "vpc_cidr_block" {
-  description = "CIDR Block for VPCed"
+  description = "CIDR Block for VPC"
   type        = string
 }
 
