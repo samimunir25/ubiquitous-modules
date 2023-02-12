@@ -20,7 +20,9 @@ vpc_tag = "My_Custom_VPC"
 
 igw_tag = "My_Custome_IGW"
 
-subnet_cidr_block = "10.0.1.0/24"
+subnet_a_cidr_block = "10.0.1.0/24"
+
+subnet_b_cidr_block = "10.0.2.0/24"
 
 subnet_tag = "Public_Subnet"
 

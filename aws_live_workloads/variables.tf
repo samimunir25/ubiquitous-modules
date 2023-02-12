@@ -14,8 +14,13 @@ variable "igw_tag" {
   type        = string
 }
 
-variable "subnet_cidr_block" {
-  description = "Tag for Internet Gateway"
+variable "subnet_a_cidr_block" {
+  description = "Subnet A CIDR Block"
+  type        = string
+}
+
+variable "subnet_b_cidr_block" {
+  description = "Subnet B CIDR Block"
   type        = string
 }
 
