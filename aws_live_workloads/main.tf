@@ -1,5 +1,5 @@
 module "custom_vpc" {
-  source = "../modules/core-infra/"
+  source = "github.com/samimunir25/ubiquitous-modules//modules/core-infra?ref=v0.0.4"
 
   vpc_cidr_block      = var.vpc_cidr_block
   vpc_tag             = var.vpc_tag
