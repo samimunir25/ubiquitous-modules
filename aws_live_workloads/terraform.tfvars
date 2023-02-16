@@ -10,9 +10,9 @@ subnet_a_cidr_block = "10.0.1.0/24"
 
 subnet_b_cidr_block = "10.0.2.0/24"
 
-subnet_a_az = "us-east-1a"
+subnet_a_availability_zone = "us-east-1a"
 
-subnet_b_az = "us-east-1b"
+subnet_b_availability_zone = "us-east-1b"
 
 subnet_tag = "Public_Subnet"
 
