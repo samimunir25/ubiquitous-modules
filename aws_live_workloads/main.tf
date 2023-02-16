@@ -1,13 +1,15 @@
 module "custom_vpc" {
   source = "github.com/samimunir25/ubiquitous-modules//modules/core-infra?ref=v0.0.4"
 
-  vpc_cidr_block      = var.vpc_cidr_block
-  vpc_tag             = var.vpc_tag
-  igw_tag             = var.igw_tag
-  subnet_a_cidr_block = var.subnet_a_cidr_block
-  subnet_b_cidr_block = var.subnet_b_cidr_block
-  subnet_tag          = var.subnet_tag
-  route_table_tag     = var.route_table_tag
+  vpc_cidr_block             = var.vpc_cidr_block
+  vpc_tag                    = var.vpc_tag
+  igw_tag                    = var.igw_tag
+  subnet_a_cidr_block        = var.subnet_a_cidr_block
+  subnet_a_availability_zone = var.subnet_a_availability_zone
+  subnet_b_cidr_block        = var.subnet_b_cidr_block
+  subnet_b_availability_zone = var.subnet_b_availability_zone
+  subnet_tag                 = var.subnet_tag
+  route_table_tag            = var.route_table_tag
 }
 
 module "webserver_cluster" {
@@ -22,3 +24,4 @@ module "webserver_cluster" {
   server_port   = var.server_port
 
 }
+

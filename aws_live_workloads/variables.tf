@@ -24,6 +24,16 @@ variable "subnet_b_cidr_block" {
   type        = string
 }
 
+variable "subnet_a_availability_zone" {
+  description = "AZ for Subnet A"
+  type        = string
+}
+
+variable "subnet_b_availability_zone" {
+  description = "AZ for Subnet B"
+  type        = string
+}
+
 variable "subnet_tag" {
   description = "Tag for Subnet"
   type        = string
