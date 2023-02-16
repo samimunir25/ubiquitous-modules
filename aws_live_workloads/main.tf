@@ -5,6 +5,8 @@ module "custom_vpc" {
   vpc_tag             = var.vpc_tag
   igw_tag             = var.igw_tag
   subnet_a_cidr_block = var.subnet_a_cidr_block
+  subnet_a_az         = var.subnet_a_az
+  subnet_b_az         = var.subnet_b_az
   subnet_b_cidr_block = var.subnet_b_cidr_block
   subnet_tag          = var.subnet_tag
   route_table_tag     = var.route_table_tag
