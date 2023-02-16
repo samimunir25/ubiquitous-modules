@@ -37,3 +37,13 @@ variable "route_table_tag" {
   description = "Tag for Route table"
   type        = string
 }
+
+variable "subnet_a_az" {
+  description = "AZ for Subnet A"
+  type        = string
+}
+
+variable "subnet_b_az" {
+  description = "AZ for Subnet B"
+  type        = string
+}

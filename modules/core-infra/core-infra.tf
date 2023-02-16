@@ -1,8 +1,8 @@
 ### VPC ###
 
 resource "aws_vpc" "this" {
-  cidr_block       = var.vpc_cidr_block
-  instance_tenancy = "default"
+  cidr_block           = var.vpc_cidr_block
+  instance_tenancy     = "default"
   enable_dns_hostnames = true
 
   tags = {
@@ -23,10 +23,11 @@ resource "aws_internet_gateway" "this" {
 ### Public Subnets ###
 
 resource "aws_subnet" "a" {
-  vpc_id     = aws_vpc.this.id
-  cidr_block = var.subnet_a_cidr_block
+  vpc_id                  = aws_vpc.this.id
+  availability_zone       = var.subnet_a_az
+  cidr_block              = var.subnet_a_cidr_block
   map_public_ip_on_launch = true
-  depends_on = [aws_internet_gateway.this]
+  depends_on              = [aws_internet_gateway.this]
 
   tags = {
     Name = var.subnet_tag
@@ -34,10 +35,11 @@ resource "aws_subnet" "a" {
 }
 
 resource "aws_subnet" "b" {
-  vpc_id     = aws_vpc.this.id
-  cidr_block = var.subnet_b_cidr_block
+  vpc_id                  = aws_vpc.this.id
+  availability_zone       = var.subnet_b_az
+  cidr_block              = var.subnet_b_cidr_block
   map_public_ip_on_launch = true
-  depends_on = [aws_internet_gateway.this]
+  depends_on              = [aws_internet_gateway.this]
 
   tags = {
     Name = var.subnet_tag
@@ -64,13 +66,13 @@ resource "aws_route_table" "this" {
 resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.a.id
   route_table_id = aws_route_table.this.id
-  depends_on = [aws_route_table.this]
+  depends_on     = [aws_route_table.this]
 }
 
 resource "aws_route_table_association" "b" {
   subnet_id      = aws_subnet.b.id
   route_table_id = aws_route_table.this.id
-  depends_on = [aws_route_table.this]
+  depends_on     = [aws_route_table.this]
 }
 
 output "this_vpc_id" {
