@@ -24,7 +24,7 @@ resource "aws_internet_gateway" "this" {
 
 resource "aws_subnet" "a" {
   vpc_id                  = aws_vpc.this.id
-  availability_zone       = var.subnet_a_az
+  availability_zone       = var.subnet_a_availability_zone
   cidr_block              = var.subnet_a_cidr_block
   map_public_ip_on_launch = true
   depends_on              = [aws_internet_gateway.this]
@@ -36,7 +36,7 @@ resource "aws_subnet" "a" {
 
 resource "aws_subnet" "b" {
   vpc_id                  = aws_vpc.this.id
-  availability_zone       = var.subnet_b_az
+  availability_zone       = var.subnet_b_availability_zone
   cidr_block              = var.subnet_b_cidr_block
   map_public_ip_on_launch = true
   depends_on              = [aws_internet_gateway.this]
