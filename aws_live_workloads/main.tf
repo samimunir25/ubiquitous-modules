@@ -13,7 +13,7 @@ module "custom_vpc" {
 }
 
 module "webserver_cluster" {
-  source = "github.com/samimunir25/ubiquitous-modules//modules/compute?ref=v0.0.3"
+  source = "github.com/samimunir25/ubiquitous-modules//modules/compute?ref=v0.0.6"
 
   cluster_name  = "webserver-stage"
   vpc_id        = module.custom_vpc.this_vpc_id
