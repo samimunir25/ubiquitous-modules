@@ -20,17 +20,22 @@ resource "aws_internet_gateway" "this" {
   }
 }
 
+### Elastic IP ###
+
+resource "aws_eip" "this" {
+  depends_on = [aws_internet_gateway.this]
+}
+
 ### Public NAT Gateway ###
 
 resource "aws_nat_gateway" "this" {
-  allocation_id = aws_eip.example.id
+  allocation_id = aws_eip.this.id
   subnet_id     = aws_subnet.public_a.id
 
   tags = {
     Name = var.nat_gw_tag
   }
 
-  depends_on = [aws_internet_gateway.this]
 }
 
 
@@ -145,7 +150,7 @@ resource "aws_route_table_association" "private_b" {
 
 output "this_vpc_id" {
   value       = aws_vpc.this.id
-  description = "The domain name of the load balancer"
+  description = "VPC ID"
 }
 
 output "this_nat_gw_ip" {
