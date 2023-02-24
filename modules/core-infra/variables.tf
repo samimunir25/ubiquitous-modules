@@ -53,6 +53,11 @@ variable "private_subnet_b_cidr_block" {
   type        = string
 }
 
+variable "prv_subnet_tag" {
+  description = "Tag for Public Subnet"
+  type        = string
+}
+
 variable "availability_zone_a" {
   description = "AZ for Subnet A"
   type        = string
@@ -63,7 +68,7 @@ variable "availability_zone_b" {
   type        = string
 }
 
-variable "prv_subnet_tag" {
+variable "prv_route_table_tag" {
   description = "Tag for Private Subnet"
   type        = string
 }
