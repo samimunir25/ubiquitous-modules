@@ -9,7 +9,7 @@ variable "instance_type" {
 }
 
 variable "image_id" {
-  description = "AMI ID for Auto Scaling Group"
+  description = "AMI ID to be used by Auto Scaling Group"
   type        = string
 }
 
