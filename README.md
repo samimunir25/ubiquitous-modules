@@ -1,5 +1,4 @@
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/sammunir25/ubiquitous-modules)
-![GitHub](https://img.shields.io/github/license/sammunir25/ubiquitous-modules)
+ [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # ubiquitous-modules
 Reusable modules for terraform
