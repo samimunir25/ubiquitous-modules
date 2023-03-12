@@ -1,6 +1,5 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/sammunir25/ubiquitous-modules)
-![GitHub Releases](https://img.shields.io/github/downloads/sammunir25/ubiquitous-modules/v0.0.7/total)
-[![LinkedIn Badge](https://badgen.net/badge/icon/medium?icon=medium&label)](https://www.linkedin.com/in/samimunir/)
+![GitHub](https://img.shields.io/github/license/sammunir25/ubiquitous-modules)
 
 # ubiquitous-modules
 Reusable modules for terraform
