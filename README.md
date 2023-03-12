@@ -56,8 +56,8 @@ At this phase of project,
 - tag v0.0.2 of *compute* module is for creating AWS workloads in default VPC.\
   Make sure to comment *custom_vpc* module in *aws_live_workloads\main.tf* if workloads are to be deployed in default VPC.
 
-- tag v0.0.6 of *compute* module is for creating ASG/ALB in custom VPC.
-- tag v0.0.5 of *core-infra* module is for creating custom VPC and its moving parts, i.e. IGW, Subnets, Route Table, Subnet association.
+- tag v0.0.8 of *compute* module is for creating ASG/ALB in custom VPC.
+- tag v0.0.8 of *core-infra* module is for creating custom VPC and its moving parts, i.e. IGW, Subnets, Route Table, Subnet association.
 
 ## Examples 
 
@@ -65,7 +65,7 @@ To deploy custom VPC, with subnets, route tables, internet gateway and subnet as
 
 ```javascript
 module "custom_vpc" {
-  source = "github.com/samimunir25/ubiquitous-modules//modules/core-infra?ref=v0.0.5"
+  source = "github.com/samimunir25/ubiquitous-modules//modules/core-infra?ref=v0.0.8"
 
   vpc_cidr_block             = var.vpc_cidr_block
   vpc_tag                    = var.vpc_tag
@@ -95,7 +95,7 @@ module "webserver_cluster" {
 To deploy Auto Scaling Group with Application Load Balancer in **custom VPC**, use below source URL in your root module.
 ```javascript
 module "webserver_cluster" {
-  source = "github.com/samimunir25/ubiquitous-modules//modules/compute?ref=v0.0.6"
+  source = "github.com/samimunir25/ubiquitous-modules//modules/compute?ref=v0.0.8"
 
   cluster_name  = "webserver-stage"
   vpc_id        = module.custom_vpc.this_vpc_id
@@ -104,6 +104,9 @@ module "webserver_cluster" {
   min_size      = var.min_size
   max_size      = var.max_size
   server_port   = var.server_port
+  depends_on = [
+    module.custom_vpc
+  ]
 }
 ```
 ## Note on AMI_ID and VPC_ID
