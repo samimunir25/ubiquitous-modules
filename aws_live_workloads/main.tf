@@ -1,5 +1,5 @@
 module "custom_vpc" {
-  source = "github.com/samimunir25/ubiquitous-modules//modules/core-infra?ref=v0.0.7"
+  source = "github.com/samimunir25/ubiquitous-modules//modules/core-infra?ref=v0.0.8"
 
   vpc_cidr_block              = "10.0.0.0/16"
   vpc_tag                     = "My_Custom_VPC"
@@ -19,7 +19,7 @@ module "custom_vpc" {
 }
 
 module "webserver_cluster" {
-  source = "github.com/samimunir25/ubiquitous-modules//modules/compute?ref=v0.0.6"
+  source = "github.com/samimunir25/ubiquitous-modules//modules/compute?ref=v0.0.8"
 
   cluster_name  = "webserver-stage"
   vpc_id        = module.custom_vpc.this_vpc_id
@@ -28,5 +28,8 @@ module "webserver_cluster" {
   min_size      = "2"
   max_size      = "2"
   server_port   = "8080"
+  depends_on = [
+    module.custom_vpc
+  ]
 }
 
