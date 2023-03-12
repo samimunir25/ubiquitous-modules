@@ -1,4 +1,5 @@
  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Symantec Verioning](https://img.shields.io/badge/Semantic%20Versioning-2.0.0-green)](https://semver.org/)
 
 # ubiquitous-modules
 Reusable modules for terraform
